@@ -1,5 +1,6 @@
 export const SummaryData = [
     {
+      id: 0,
       deviceId: "D-1567",
       deviceType: "Aircraft",
       coordinate:[
@@ -18,6 +19,7 @@ export const SummaryData = [
       ]
     },
     {
+      id: 1,
       deviceId: "D-1568",
       deviceType: "Aircraft",
       coordinate:[
@@ -40,6 +42,7 @@ export const SummaryData = [
       ]
     },
     {
+      id: 2,
       deviceId: "D-1569",
       deviceType: "Personal",
       coordinate:[
