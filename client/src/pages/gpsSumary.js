@@ -1,8 +1,21 @@
-import React from "react";
+import * as React from "react";
 import SummaryTable from "../components/summaryTable";
-import { SummaryData } from "../fakeData/data";
+import { API } from "../config/api";
 
 const Summary = () => {
+  const [gps, setGps] = React.useState();
+  const getGps = async () => {
+    try {
+      const response = await API.get("/devices");
+      setGps(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  React.useEffect(() => {
+    getGps();
+  }, []);
+
   return (
     <div
       className='bg-black d-flex align-items-center row'
@@ -13,7 +26,7 @@ const Summary = () => {
         <div className='text-light'>
           <h2 className='mb-5'>GPS Summary</h2>
           <div>
-            <SummaryTable data={SummaryData} />
+            <SummaryTable data={gps} />
           </div>
         </div>
       </div>

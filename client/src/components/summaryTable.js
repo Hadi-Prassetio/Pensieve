@@ -1,24 +1,23 @@
 import * as React from "react";
-import Table from "react-bootstrap/table";
 import Form from "react-bootstrap/Form";
-import { Link, useNavigate } from "react-router-dom";
+import Table from "react-bootstrap/table";
 import { BsArrowRight } from "react-icons/bs";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import Pagination from "./pagination";
+import dateFormat from "dateformat"
 
 const SummaryTable = ({ data }) => {
   const navigate = useNavigate();
-  const total = data.length;
+  const total = data?.length;
 
   const [search, setSearch] = React.useState("");
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [postPerPage, setPostPerPage] = React.useState(2);
+  const [postPerPage, setPostPerPage] = React.useState(5);
 
   const lastPostIndex = currentPage * postPerPage;
   const firstPostIndex = lastPostIndex - postPerPage;
 
-  const page = data.slice(firstPostIndex, lastPostIndex);
+  const page = data?.slice(firstPostIndex, lastPostIndex);
 
   return (
     <div>
@@ -58,35 +57,31 @@ const SummaryTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {page
-            .filter((item) => {
+          {page?.filter((item) => {
               if (search == "") {
                 return item;
               } else if (
-                item.deviceId
-                  .toLocaleLowerCase()
-                  .includes(search.toLocaleLowerCase())
+                item.deviceId?.toLocaleLowerCase()
+                  .includes(search?.toLocaleLowerCase())
               ) {
                 return item;
               } else if (
-                item.deviceType
-                  .toLocaleLowerCase()
-                  .includes(search.toLocaleLowerCase())
+                item.deviceType?.toLocaleLowerCase()
+                  .includes(search?.toLocaleLowerCase())
               ) {
                 return item;
               }
             })
-            .map((item, index) => (
-              <tr key={index} className='text-light'>
+            .map((item) => (
+              <tr key={item.id} className='text-light'>
                 <td></td>
-                <td>{item.deviceId}</td>
-                <td> {item.deviceType} </td>
+                <td>{item?.deviceId}</td>
+                <td> {item?.deviceType} </td>
                 <td>
-                  {item.coordinate[item.coordinate.length - 1]?.timeStamp}{" "}
+                  {dateFormat(item.locations[item.locations.length - 1]?.createdAt, "yyyy-mm-dd HH:MM:ss")}
                 </td>
                 <td>
-                  {" "}
-                  {item.coordinate[item.coordinate.length - 1]?.location}
+                  {item.locations[item.locations.length - 1]?.location}
                 </td>
                 <td className='text-end'>
                   <button
