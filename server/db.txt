@@ -1,0 +1,3 @@
+npx sequelize-cli model:generate --name user --attributes email:string,password:string,name:string
+npx sequelize-cli model:generate --name device --attributes deviceId:string,deviceType:string
+npx sequelize-cli model:generate --name location --attributes iddevice:integer,location:string
