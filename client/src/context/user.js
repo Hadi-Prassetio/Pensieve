@@ -32,7 +32,7 @@ export const UserContextProvider =({children})=>{
     const [state, dispath] = React.useReducer(reducer, initial)
 
     return(
-        <userContext.Provider value={[state,dispath]}>
+        <userContext.Provider value={[state, dispath]}>
             <div>{children}</div>
         </userContext.Provider>
     )
