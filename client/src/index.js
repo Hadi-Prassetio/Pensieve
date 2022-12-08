@@ -6,22 +6,29 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContextProvider } from "../src/context/user";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const client = new QueryClient();
 root.render(
   <React.StrictMode>
-     <ToastContainer
-            position='top-center'
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-    <App />
+    <ToastContainer
+      position='top-center'
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+    <UserContextProvider>
+      <QueryClientProvider client={client}>
+        <App />
+      </QueryClientProvider>
+    </UserContextProvider>
   </React.StrictMode>
 );
 
