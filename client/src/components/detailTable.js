@@ -1,16 +1,16 @@
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import React from "react";
 import Table from "react-bootstrap/table";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { SummaryData } from "../fakeData/data";
+import dateFormat from "dateformat"
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const DetailTitle = ({ data }) => {
   return (
     <>
-      <h2 className=''>{data.deviceId}</h2>
-      <h3 className='mb-4'> {data.deviceType} </h3>
+      <h2 className=''>{data?.deviceId}</h2>
+      <h3 className='mb-4'> {data?.deviceType} </h3>
     </>
   );
 };
@@ -25,9 +25,9 @@ export const Detailtable = ({ data }) => {
         </tr>
       </thead>
       <tbody className=''>
-        {data.coordinate?.map((item) => (
+        {data?.locations?.map((item) => (
           <tr key={item.id} className='text-light'>
-            <td> {item.timeStamp} </td>
+            <td> {dateFormat(item.createdAt, "yyyy-mm-dd HH:MM:ss")} </td>
             <td>{item.location}</td>
           </tr>
         ))}
@@ -40,13 +40,13 @@ export const Piechart = ({ data }) => {
   const calculation = [];
   const value = [];
 
-  data.coordinate.forEach((item) => {
-    if (calculation[item.location]) {
-      calculation[item.location]++;
-      value.push(item.location);
+  data?.locations?.forEach((item) => {
+    if (calculation[item?.location]) {
+      calculation[item?.location]++;
+      value.push(item?.location);
     } else {
-      calculation[item.location] = 1;
-      value.push(item.location);
+      calculation[item?.location] = 1;
+      value.push(item?.location);
     }
   });
 
@@ -71,11 +71,9 @@ export const Piechart = ({ data }) => {
     ],
   };
 
-  const count = unique.map(
-    (item) => (calculation[item] / data.coordinate.length) * 100
+  const count = unique?.map(
+    (item) => (calculation[item] / data.locations.length) * 100
   );
-
-  const all = [{ label: unique, total: count }];
 
   return (
     <Table className='sm table table-bordered'>
@@ -90,14 +88,22 @@ export const Piechart = ({ data }) => {
             <div className='mx-auto'>
               <div>
                 <p>{chart.datasets[0].label}</p>
+                <div className="d-flex">
                 <ul>
                   {chart?.labels.map((item) => (
                     <li>
                       <div>{item}</div>
-                      {/* <div>{count}</div> */}
                     </li>
                   ))}
                 </ul>
+                <ul className="list-unstyled">
+                  {count.map((item) => (
+                    <li>
+                      <div>={Math.floor(item)}%</div>
+                    </li>
+                  ))}
+                </ul>
+                </div>
               </div>
             </div>
           </th>
